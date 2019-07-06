@@ -1,25 +1,11 @@
 #include <vtkSmartPointer.h>
 #include <vtkPolyData.h>
 #include <vtkImageData.h>
-#include <vtkSphereSource.h>
-#include <vtkMetaImageWriter.h>
 #include <vtkPolyDataToImageStencil.h>
-#include <vtkImageStencil.h>
-#include <vtkPointData.h>
-#include <vtkmetaio/metaImage.h>
-#include <vtkIndent.h>
-#include <vtkPNMWriter.h>
-
 #include <vtkImageStencilToImage.h>
-#include <vtkImageViewer2.h>
-#include <vtkImageStencilData.h>
+#include <vtkSphereSource.h>
+#include <vtkPointData.h>
 
-
-#include <vtkDataSetMapper.h>
-#include <vtkActor.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderer.h>
-#include <vtkRenderWindowInteractor.h>
 
 using namespace std;
 /**
@@ -43,7 +29,7 @@ int main(int, char *[])
   //create a new sphere with rad = 20
   vtkSmartPointer<vtkSphereSource> sphereSource =
     vtkSmartPointer<vtkSphereSource>::New();
-  sphereSource->SetRadius(20);
+  sphereSource->SetRadius(5);
 
   //next two lines should basically set how clear the sphere is w/r/t resolution
   sphereSource->SetPhiResolution(30);
@@ -66,6 +52,8 @@ int main(int, char *[])
   spacing[1] = 0.25;
   spacing[2] = 0.25;
   whiteImage->SetSpacing(spacing);
+
+  double spaceFactor = spacing[0]*spacing[1]*spacing[2];
 
   // compute dimensions (size of max - min in each direction)
   //in this case it will come out to 80 in each direction (they are rounded) as we are using a spacing of size .5
@@ -121,16 +109,6 @@ int main(int, char *[])
   pol2stenc->SetOutputWholeExtent(whiteImage->GetExtent());
   pol2stenc->Update();
 
-  // cut the corresponding white image and set the background:
-  vtkSmartPointer<vtkImageStencil> imgstenc =
-    vtkSmartPointer<vtkImageStencil>::New();
-  imgstenc->SetInputData(whiteImage);
-  //get the sphere image and connect it as the stencil that we want to use to contrast the input background image set above
-  imgstenc->SetStencilConnection(pol2stenc->GetOutputPort());
-  imgstenc->ReverseStencilOff();
-  //should now set the background color to be equal to zero to contrast the 255 of all of the sphere
-  imgstenc->SetBackgroundValue(outval);
-  imgstenc->Update();
 
   vtkSmartPointer<vtkImageStencilToImage> sten2im =
     vtkSmartPointer<vtkImageStencilToImage>::New();
@@ -143,22 +121,6 @@ int main(int, char *[])
   sten2im->SetInsideValue(255);
   sten2im->SetOutput(imageData);
   sten2im->Update();
-
-  // vtkSmartPointer<vtkImageViewer2> viewer =
-  //   vtkSmartPointer<vtkImageViewer2>::New();
-
-  // vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-  //   vtkSmartPointer<vtkRenderWindowInteractor>::New();
-
-  // viewer->SetInputConnection(sten2im->GetOutputPort());
-  // viewer->SetColorWindow(255);
-  // viewer->SetColorLevel(127.5);
-
-  // viewer->SetupInteractor(renderWindowInteractor);
-
-  // viewer->Render();
-
-  // // renderWindowInteractor->Start();
 
   int* dimensions = imageData -> GetDimensions();
 
@@ -176,7 +138,7 @@ int main(int, char *[])
       for(int x = 0; x < dimensions[0]; x++)
       {
         double pixel = imageData->GetScalarComponentAsDouble(x, y, z, 0);
-        if(pixel == 255)
+        if(pixel > 127)
         {
 
           // cout << pixel[0];
@@ -187,18 +149,10 @@ int main(int, char *[])
     }
     // cout << endl;
   }
-  cout << numberOfPointsAboveZero << endl;
 
-  // vtkIndent *ind = vtkIndent::New();
-  // imgstenc->PrintSelf(cout, *ind);
+  double output = numberOfPointsAboveZero*spaceFactor;
 
-  // vtkSmartPointer<vtkMetaImageWriter> writer =
-  //   vtkSmartPointer<vtkMetaImageWriter>::New();
-  // writer->SetFileName("SphereVolume.mhd");
-  // writer->SetRAWFileName("SphereVolume.raw");
-  // //writer->SetCompression(false);
-  // writer->SetInputData(imgstenc->GetOutput());
-  // writer->Write();
+  cout << output << endl;
 
   return EXIT_SUCCESS;
 }
