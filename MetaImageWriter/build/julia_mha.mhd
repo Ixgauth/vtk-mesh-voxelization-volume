@@ -1,0 +1,14 @@
+ObjectType = Image
+NDims = 2
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = True
+CompressedDataSize = 5768
+TransformMatrix = 1 0 0 1
+Offset = -1.75 -1.25
+CenterOfRotation = 0 0
+ElementSpacing = 0.01 0.01
+DimSize = 251 251
+AnatomicalOrientation = ??
+ElementType = MET_UCHAR
+ElementDataFile = julia_mha.raw
