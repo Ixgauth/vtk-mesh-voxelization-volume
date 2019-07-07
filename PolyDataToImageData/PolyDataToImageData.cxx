@@ -43,7 +43,7 @@ int main(int, char *[])
   //create a new sphere with rad = 20
   vtkSmartPointer<vtkSphereSource> sphereSource =
     vtkSmartPointer<vtkSphereSource>::New();
-  sphereSource->SetRadius(20);
+  sphereSource->SetRadius(5);
 
   //next two lines should basically set how clear the sphere is w/r/t resolution
   sphereSource->SetPhiResolution(30);
