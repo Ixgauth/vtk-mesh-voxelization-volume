@@ -11,7 +11,6 @@ CMakeFiles/MeshVoxelizationVolumeCalculator.dir/MeshVoxelizationVolumeCalculator
  /usr/include/vtk-7.1/vtkAtomic.h
  /usr/include/vtk-7.1/vtkAtomicTypeConcepts.h
  /usr/include/vtk-7.1/vtkAtomicTypes.h
- /usr/include/vtk-7.1/vtkAutoInit.h
  /usr/include/vtk-7.1/vtkBuffer.h
  /usr/include/vtk-7.1/vtkCell.h
  /usr/include/vtk-7.1/vtkCellArray.h
@@ -28,7 +27,6 @@ CMakeFiles/MeshVoxelizationVolumeCalculator.dir/MeshVoxelizationVolumeCalculator
  /usr/include/vtk-7.1/vtkDataSetAttributes.h
  /usr/include/vtk-7.1/vtkDebugLeaksManager.h
  /usr/include/vtk-7.1/vtkFieldData.h
- /usr/include/vtk-7.1/vtkFiltersCoreModule.h
  /usr/include/vtk-7.1/vtkFiltersSourcesModule.h
  /usr/include/vtk-7.1/vtkGenericDataArray.h
  /usr/include/vtk-7.1/vtkGenericDataArray.txx
@@ -48,7 +46,6 @@ CMakeFiles/MeshVoxelizationVolumeCalculator.dir/MeshVoxelizationVolumeCalculator
  /usr/include/vtk-7.1/vtkIntArray.h
  /usr/include/vtk-7.1/vtkMath.h
  /usr/include/vtk-7.1/vtkMathConfigure.h
- /usr/include/vtk-7.1/vtkNew.h
  /usr/include/vtk-7.1/vtkOStrStreamWrapper.h
  /usr/include/vtk-7.1/vtkOStreamWrapper.h
  /usr/include/vtk-7.1/vtkObject.h
@@ -59,18 +56,15 @@ CMakeFiles/MeshVoxelizationVolumeCalculator.dir/MeshVoxelizationVolumeCalculator
  /usr/include/vtk-7.1/vtkPoints.h
  /usr/include/vtk-7.1/vtkPolyData.h
  /usr/include/vtk-7.1/vtkPolyDataAlgorithm.h
- /usr/include/vtk-7.1/vtkPolyDataNormals.h
  /usr/include/vtk-7.1/vtkPolyDataToImageStencil.h
  /usr/include/vtk-7.1/vtkSetGet.h
  /usr/include/vtk-7.1/vtkSmartPointer.h
  /usr/include/vtk-7.1/vtkSmartPointerBase.h
  /usr/include/vtk-7.1/vtkSphereSource.h
  /usr/include/vtk-7.1/vtkStdString.h
- /usr/include/vtk-7.1/vtkStripper.h
  /usr/include/vtk-7.1/vtkStructuredData.h
  /usr/include/vtk-7.1/vtkSystemIncludes.h
  /usr/include/vtk-7.1/vtkTimeStamp.h
- /usr/include/vtk-7.1/vtkTriangleFilter.h
  /usr/include/vtk-7.1/vtkType.h
  /usr/include/vtk-7.1/vtkTypeTraits.h
  /usr/include/vtk-7.1/vtkUnicodeString.h

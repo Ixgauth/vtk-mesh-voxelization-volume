@@ -21,14 +21,6 @@ vtkSphereSource.h
 -
 vtkPointData.h
 -
-vtkNew.h
--
-vtkPolyDataNormals.h
--
-vtkTriangleFilter.h
--
-vtkStripper.h
--
 
 /usr/include/vtk-7.1/vtkABI.h
 
@@ -85,12 +77,6 @@ vtkAtomic.h
 /usr/include/vtk-7.1/vtkAtomic.h
 vtkType.h
 /usr/include/vtk-7.1/vtkType.h
-
-/usr/include/vtk-7.1/vtkAutoInit.h
-vtkDebugLeaksManager.h
-/usr/include/vtk-7.1/vtkDebugLeaksManager.h
-vtkTimeStamp.h
-/usr/include/vtk-7.1/vtkTimeStamp.h
 
 /usr/include/vtk-7.1/vtkBuffer.h
 vtkObject.h
@@ -185,10 +171,6 @@ vtkObject.h
 /usr/include/vtk-7.1/vtkObject.h
 vtkAbstractArray.h
 /usr/include/vtk-7.1/vtkAbstractArray.h
-
-/usr/include/vtk-7.1/vtkFiltersCoreModule.h
-vtkAutoInit.h
-/usr/include/vtk-7.1/vtkAutoInit.h
 
 /usr/include/vtk-7.1/vtkFiltersSourcesModule.h
 
@@ -322,10 +304,6 @@ cmath
 float.h
 -
 
-/usr/include/vtk-7.1/vtkNew.h
-vtkIOStream.h
-/usr/include/vtk-7.1/vtkIOStream.h
-
 /usr/include/vtk-7.1/vtkOStrStreamWrapper.h
 
 /usr/include/vtk-7.1/vtkOStreamWrapper.h
@@ -404,12 +382,6 @@ vtkAlgorithm.h
 vtkPolyData.h
 /usr/include/vtk-7.1/vtkPolyData.h
 
-/usr/include/vtk-7.1/vtkPolyDataNormals.h
-vtkFiltersCoreModule.h
-/usr/include/vtk-7.1/vtkFiltersCoreModule.h
-vtkPolyDataAlgorithm.h
-/usr/include/vtk-7.1/vtkPolyDataAlgorithm.h
-
 /usr/include/vtk-7.1/vtkPolyDataToImageStencil.h
 vtkImagingStencilModule.h
 /usr/include/vtk-7.1/vtkImagingStencilModule.h
@@ -450,12 +422,6 @@ vtkSystemIncludes.h
 string
 -
 
-/usr/include/vtk-7.1/vtkStripper.h
-vtkFiltersCoreModule.h
-/usr/include/vtk-7.1/vtkFiltersCoreModule.h
-vtkPolyDataAlgorithm.h
-/usr/include/vtk-7.1/vtkPolyDataAlgorithm.h
-
 /usr/include/vtk-7.1/vtkStructuredData.h
 vtkCommonDataModelModule.h
 /usr/include/vtk-7.1/vtkCommonDataModelModule.h
@@ -493,12 +459,6 @@ vtkCommonCoreModule.h
 /usr/include/vtk-7.1/vtkCommonCoreModule.h
 vtkSystemIncludes.h
 /usr/include/vtk-7.1/vtkSystemIncludes.h
-
-/usr/include/vtk-7.1/vtkTriangleFilter.h
-vtkFiltersCoreModule.h
-/usr/include/vtk-7.1/vtkFiltersCoreModule.h
-vtkPolyDataAlgorithm.h
-/usr/include/vtk-7.1/vtkPolyDataAlgorithm.h
 
 /usr/include/vtk-7.1/vtkType.h
 vtkConfigure.h
