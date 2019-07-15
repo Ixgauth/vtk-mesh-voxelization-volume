@@ -1,5 +1,5 @@
 # vtk-mesh-voxelization-volume
 
-A working algorithm for vtk which will, at present, create a sphere and obtain the volume of it using mesh voxelization and then counting the voxels. This will be expanded upon in the coming days/weeks but I wanted to get it up quickly.
+The goal of this repository is to create a filter which will be used as a new persistence diagram filter in ttk which takes the persistence based on the volume of a saddle-max or min-saddle pair rather than taking the simple z-coordinate difference when calculating the persistence. This is likely to be more useful as a whole for noisy data.
 
-Includes a bunch of additional stuff which was used in testing to create the algorithm. Most of the important stuff is in the PolyDataToImageData folder.
+The current iteration is an amalgamation of the pieces that will be used in the final product as well as old tests used to work toward the current solution. It is not intended as a working product currently.
