@@ -7,3 +7,6 @@ MeshVoxelizationVolumeCalculator/build/
 IterateImageData/build/
 ImageStencilToImageTest/build/
 ignored/
+CreateClosedSurface/
+FillHoles/build/
+FillHoles/data/
