@@ -65,6 +65,14 @@
 #include                  <vtkObjectFactory.h>
 #include                  <vtkPointData.h>
 #include                  <vtkSmartPointer.h>
+#include                  <vtkAppendFilter.h>
+#include                  <vtkUnstructuredGrid.h>
+#include                  <vtkPolyData.h>
+#include                  <vtkXMLUnstructuredGridWriter.h>
+#include                  <vtkProgrammableFilter.h>
+
+
+
 
 
 // ttk code includes
@@ -72,6 +80,14 @@
 #include                  <ttkWrapper.h>
 
 #include                  <ttkTriangulation.h>
+
+
+struct params
+{
+  vtkPolyData* data;
+  vtkDataArray* scalars;
+  vtkProgrammableFilter* filter;
+};
 
 #ifndef TTK_PLUGIN
 class VTKFILTERSCORE_EXPORT ttkTopologicalSimplificationHelper

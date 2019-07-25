@@ -13,8 +13,7 @@ TopologicalSimplificationHelper::TopologicalSimplificationHelper():
   considerIdentifierAsBlackList_{},
   outputScalarFieldPointer_{},
   outputOffsetScalarFieldPointer_{},
-  helperScalarFieldPointer_{},
-  helperOffsetScalarFieldPointer_{}
+  helperScalarFieldPointer_{}
 {
   considerIdentifierAsBlackList_ = false;
 }

@@ -159,11 +159,6 @@ namespace ttk{
         helperScalarFieldPointer_=data;
         return 0;
       }
-
-      inline int setHelperOffsetScalarFieldPointer(void *data){
-        helperOffsetScalarFieldPointer_=data;
-        return 0;
-      }
     protected:
 
       Triangulation* triangulation_;
@@ -176,7 +171,6 @@ namespace ttk{
       void* outputScalarFieldPointer_;
       void* outputOffsetScalarFieldPointer_;
       void* helperScalarFieldPointer_;
-      void* helperOffsetScalarFieldPointer_;
   };
 }
 
@@ -284,7 +278,6 @@ int ttk::TopologicalSimplificationHelper::execute() const{
   SimplexId* offsets=static_cast<SimplexId*>(outputOffsetScalarFieldPointer_);
 
   dataType* helperScalars=static_cast<dataType*>(helperScalarFieldPointer_);
-  // SimplexId* helperOffsets=static_cast<SimplexId*>(helperOffsetScalarFieldPointer_);
 
   Timer t;
 
@@ -357,7 +350,7 @@ int ttk::TopologicalSimplificationHelper::execute() const{
     
     //This is basically just running through twice with the first time being for maxs and the second being for mins
     // there will only be one meaningful run through here.
-    for(int j=0; j<2; ++j){
+    for(int j=1; j<2; ++j){
       
       //if we are on the first iteration for a given point we will say that we don't want increasing order, if we are on the second we want increasig order
       bool isIncreasingOrder=!j;
@@ -437,9 +430,6 @@ int ttk::TopologicalSimplificationHelper::execute() const{
           if(k and scalars[adjustmentSequence[k]] <= scalars[adjustmentSequence[k-1]])
           {
             scalars[adjustmentSequence[k]]=scalars[adjustmentSequence[k-1]];
-            // helperScalars[adjustmentSequence[k]] = scalars[adjustmentSequence[k]];
-            // helperOffsets[adjustmentSequence[k]] = offsets[adjustmentSequence[k]];
-            // helperCounter++;
           }
 
           //increase the value of offset so it ends up being the number of timnes we entered this loop
@@ -452,9 +442,6 @@ int ttk::TopologicalSimplificationHelper::execute() const{
           if(k and scalars[adjustmentSequence[k]] >= scalars[adjustmentSequence[k-1]])
           {
             scalars[adjustmentSequence[k]]=scalars[adjustmentSequence[k-1]];
-            // helperScalars[adjustmentSequence[k]] = scalars[adjustmentSequence[k]];
-            // helperOffsets[adjustmentSequence[k]] = offsets[adjustmentSequence[k]];
-            // helperCounter++;
           }
           //this time decrement the offset (should end at equatly one i believe)
           --offset;
@@ -501,15 +488,29 @@ int ttk::TopologicalSimplificationHelper::execute() const{
     if(!needForMoreIterations) break;
   }
 
+  double lowestScalar = 100000;
+
   for(int i =0; i < vertexNumber_; ++i)
   {
     if(scalars[i] != helperScalars[i])
     {
       scalars[i] = helperScalars[i];
+      if(scalars[i] < lowestScalar)
+      {
+        lowestScalar = scalars[i];
+      }
     }
     else
     {
       scalars[i] = 0;
+    }
+  }
+
+  for(int i =0; i < vertexNumber_; i++)
+  {
+    if(scalars[i] == 0)
+    {
+      scalars[i] = lowestScalar;
     }
   }
 

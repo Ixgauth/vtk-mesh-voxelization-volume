@@ -1,42 +1,20 @@
+cmake_minimum_required(VERSION 3.5)
 
-cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
-
+# name of the project
 project(FillHoles)
 
-find_package(VTK COMPONENTS 
-  vtkCommonColor
-  vtkCommonCore
-  vtkCommonDataModel
-  vtkFiltersCore
-  vtkFiltersExtraction
-  vtkFiltersGeometry
-  vtkFiltersModeling
-  vtkFiltersSources
-  vtkIOGeometry
-  vtkIOLegacy
-  vtkIOPLY
-  vtkIOXML
-  vtkInteractionStyle
-  vtkRenderingCore
-  vtkRenderingFreeType
-  vtkRenderingOpenGL2 QUIET)
-if (NOT VTK_FOUND)
-  message("Skipping FillHoles: ${VTK_NOT_FOUND_MESSAGE}")
-  return ()
-endif()
-message (STATUS "VTK_VERSION: ${VTK_VERSION}")
-if (VTK_VERSION VERSION_LESS "8.90.0")
-  # old system
-  include(${VTK_USE_FILE})
-  add_executable(FillHoles MACOSX_BUNDLE FillHoles.cxx )
-  target_link_libraries(FillHoles PRIVATE ${VTK_LIBRARIES})
-else ()
-  # include all components
-  add_executable(FillHoles MACOSX_BUNDLE FillHoles.cxx )
-  target_link_libraries(FillHoles PRIVATE ${VTK_LIBRARIES})
-  # vtk_module_autoinit is needed
-  vtk_module_autoinit(
-    TARGETS FillHoles
-    MODULES ${VTK_LIBRARIES}
-    )
-endif () 
+set(CMAKE_CXX_STANDARD 11)
+
+find_package(VTK REQUIRED)
+find_package(TTKBase REQUIRED PATHS /usr/local/lib/cmake/ttk)
+find_package(TTKVTK REQUIRED PATHS /usr/local/lib/cmake/ttk)
+
+include(${VTK_USE_FILE})
+
+add_executable(FillHoles FillHoles.cxx)
+
+include_directories(/home/ian/ttk/ttk-0.9.7/core/base/topologicalSimplificationHelper /home/ian/ttk/ttk-0.9.7/core/vtk/ttkTopologicalSimplificationHelper)
+
+target_link_libraries(FillHoles PUBLIC
+  ${VTK_LIBRARIES}
+  ttk::vtk::ttkAll)

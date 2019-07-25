@@ -156,6 +156,31 @@ int ttkTopologicalSimplificationHelper::getOffsets(vtkDataSet* input){
   return 0;
 }
 
+
+void AdjustPoints(void* arguments)
+{
+  params* input = static_cast<params*>(arguments);
+
+  vtkPoints* inPts = input->data->GetPoints();
+  vtkDataArray* scalars = input->scalars;
+  vtkIdType numPts = inPts->GetNumberOfPoints();
+  vtkSmartPointer<vtkPoints> newPts =
+      vtkSmartPointer<vtkPoints>::New();
+  newPts->SetNumberOfPoints(numPts);
+
+  for(vtkIdType i = 0; i < numPts; i++)
+  {
+    double p[3];
+    inPts->GetPoint(i, p);
+    p[2] = scalars->GetTuple1(i);
+    newPts->SetPoint(i, p);
+  }
+
+  input->filter->GetPolyDataOutput()->CopyStructure(input->data);
+  input->filter->GetPolyDataOutput()->SetPoints(newPts);
+
+}
+
 int ttkTopologicalSimplificationHelper::doIt(vector<vtkDataSet *> &inputs,
   vector<vtkDataSet *> &outputs){
   
@@ -221,13 +246,6 @@ int ttkTopologicalSimplificationHelper::doIt(vector<vtkDataSet *> &inputs,
     outputOffsets->SetNumberOfComponents(1);
     outputOffsets->SetNumberOfTuples(numberOfVertices);
     outputOffsets->SetName(OutputOffsetScalarFieldName.data());
-  }
-
-  vtkSmartPointer<ttkSimplexIdTypeArray> outputOffsetsHelperVersion = vtkSmartPointer<ttkSimplexIdTypeArray>::New();
-  if(outputOffsetsHelperVersion){
-    outputOffsetsHelperVersion->SetNumberOfComponents(1);
-    outputOffsetsHelperVersion->SetNumberOfTuples(numberOfVertices);
-    outputOffsetsHelperVersion->SetName(OutputOffsetScalarFieldName.data());
   }
 #ifndef TTK_ENABLE_KAMIKAZE
   else{
@@ -329,9 +347,6 @@ int ttkTopologicalSimplificationHelper::doIt(vector<vtkDataSet *> &inputs,
   topologicalSimplificationHelper_.setHelperScalarFieldPointer(
     outputScalarsHelperVersion->GetVoidPointer(0));
 
-  topologicalSimplificationHelper_.setHelperOffsetScalarFieldPointer(
-    outputOffsetsHelperVersion->GetVoidPointer(0));
-
 #ifndef TTK_ENABLE_KAMIKAZE
   if(identifiers_->GetDataType() != inputOffsets_->GetDataType()){
     cerr << "[ttkTopologicalSimplificationHelper] Error : type of identifiers and offsets are different." << endl;
@@ -358,8 +373,55 @@ int ttkTopologicalSimplificationHelper::doIt(vector<vtkDataSet *> &inputs,
   output->ShallowCopy(domain);
   output->GetPointData()->AddArray(outputOffsets);
   output->GetPointData()->AddArray(outputScalars);
-  outputScalars->Delete();
   outputScalarsHelperVersion->Delete();
+
+
+
+  vtkSmartPointer<vtkPolyData> polyDataOutput =
+    vtkSmartPointer<vtkPolyData>::New();
+
+
+  polyDataOutput->CopyStructure(output);
+
+  vtkSmartPointer<vtkProgrammableFilter> programmableFilter = 
+    vtkSmartPointer<vtkProgrammableFilter>::New();
+
+  programmableFilter->SetInputData(polyDataOutput);
+
+
+  params myParams;
+  myParams.data = polyDataOutput;
+  myParams.scalars = outputScalars;
+  myParams.filter = programmableFilter;
+
+  programmableFilter->SetExecuteMethod(AdjustPoints, &myParams);
+  programmableFilter->Update();
+
+  vtkSmartPointer<vtkPolyData> programmableFilterOutput = programmableFilter->GetPolyDataOutput();
+
+  vtkSmartPointer<vtkAppendFilter> appendFilter =
+    vtkSmartPointer<vtkAppendFilter>::New();
+
+  appendFilter->AddInputData(programmableFilter->GetPolyDataOutput());
+
+  appendFilter->Update();
+
+  vtkSmartPointer<vtkUnstructuredGrid> unstructuredGrid = 
+      vtkSmartPointer<vtkUnstructuredGrid>::New();
+
+  unstructuredGrid->ShallowCopy(appendFilter->GetOutput());
+
+  vtkSmartPointer<vtkXMLUnstructuredGridWriter> writer =
+    vtkSmartPointer<vtkXMLUnstructuredGridWriter>::New();
+  writer->SetFileName("TestOutputPoly.vtu");
+
+  writer->SetInputData(unstructuredGrid);
+
+  writer->Write();
+
+  output->CopyStructure(programmableFilterOutput);
+
+  outputScalars->Delete();
 
   {
     stringstream msg;
